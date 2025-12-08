@@ -11,7 +11,7 @@
 
 Auto-SRE is not a standard chatbot. It is an **Agentic System** capable of executing read-only system tools to investigate the health of a Linux machine.
 
-Built with the **Google Gemini 1.5 Flash** model, it utilizes **Function Calling (Tool Use)** to bridge the gap between natural language and system observables (Logs, Disk Usage, Process Status).
+Built with the **Google Gemini 2.5 Flash** model, it utilizes **Function Calling (Tool Use)** to bridge the gap between natural language and system observables (Logs, Disk Usage, Process Status).
 
 ### Key Features
 * **🔍 Log Analysis:** Autonomously reads and parses `/var/log/syslog`, `auth.log`, and `kern.log` to identify errors.
@@ -24,11 +24,11 @@ Built with the **Google Gemini 1.5 Flash** model, it utilizes **Function Calling
 ## 🏗️ Architecture
 
 The agent follows a 3-layer architecture:
-1.  **The Brain (Gemini 1.5):** Reasons about the user's intent and decides which tool to call.
+1.  **The Brain (Gemini 2.5):** Reasons about the user's intent and decides which tool to call.
 2.  **The Hands (Python Tools):** Executes system calls (`os`, `shutil`) to fetch actual data.
 3.  **The Guardrails:** Validates all file paths before execution to prevent security vulnerabilities.
 
-```mermaid
+``mermaid
 graph LR
     A[User Query] --> B(Gemini Agent)
     B -->|Decides Tool| C{Security Check}
@@ -51,8 +51,7 @@ graph LR
 
 **Step 1: Clone & Install**
 
-    Bash
-
+    ``Bash
     git clone [https://github.com/Sri-Ram-Bala/DevOps_agent.git](https://github.com/Sri-Ram-Bala/DevOps_agent.git)
   
     cd auto-sre-agent
@@ -84,7 +83,7 @@ graph LR
 
     Use sudo while preserving your Python environment:
 
-        Bash
+        ``Bash
 
         # If using uv
         sudo .venv/bin/python sre_agent.py
@@ -114,7 +113,7 @@ Option B: Run as User (Limited Access)
 
 ---
 
-🧪 Example Scenario
+## 🧪 Example Scenario
     User: "Why is my system acting weird? Check the logs."
 
     Agent (Internal Thought): User asked for a check. I will call read_system_log('syslog').
@@ -127,6 +126,6 @@ Option B: Run as User (Limited Access)
 
 ---
 
-📜 License
+## 📜 License
 
     MIT License
