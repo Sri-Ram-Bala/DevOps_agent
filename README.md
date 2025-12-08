@@ -28,32 +28,28 @@ The agent follows a 3-layer architecture:
 2.  **The Hands (Python Tools):** Executes system calls (`os`, `shutil`) to fetch actual data.
 3.  **The Guardrails:** Validates all file paths before execution to prevent security vulnerabilities.
 
-``mermaid
+```mermaid
 graph LR
-    A[User Query] --> B(Gemini Agent)
-    B -->|Decides Tool| C{Security Check}
-    C -->|Pass| D[System Logs / Disk Check]
-    C -->|Fail| E[Block Access]
-    D -->|Return Data| B
-    B -->|Final Diagnosis| F[User Terminal]
-
+    A[User Query] --> B(Gemini Agent);
+    B -->|Decides Tool| C{Security Check};
+    C -->|Pass| D[System Logs / Disk Check];
+    C -->|Fail| E[Block Access];
+    D -->|Return Data| B;
+    B -->|Final Diagnosis| F[User Terminal];
+```
 ---
 
 ## 🛠️ Installation
 
-    Prerequisites
-
-       => Linux (Ubuntu/Mint/Debian recommended)
-
-       => Python 3.10+
-
-       => uv (Recommended) or pip
+**Prerequisites**
+* Linux (Ubuntu/Mint/Debian recommended)
+* Python 3.10+
+* uv (Recommended) or pip
 
 **Step 1: Clone & Install**
 
-    ``Bash
-    git clone [https://github.com/Sri-Ram-Bala/DevOps_agent.git](https://github.com/Sri-Ram-Bala/DevOps_agent.git)
-  
+    ```Bash
+    git clone [https://github.com/Sri-Ram-Bala/DevOps_agent.git](https://github.com/Sri-Ram-Bala/DevOps_agent.git) 
     cd auto-sre-agent
 
     # Using uv (Faster)
@@ -64,68 +60,67 @@ graph LR
     python3 -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
-
+    ```
 
 **Step 2: Configure Environment**
-    Create a .env file in the root directory and add your Google Gemini API key:
 
-        Python
+Create a .env file in the root directory and add your Google Gemini API key:
 
         GEMINI_API_KEY= YOUR_GEMINI_API_KEY
+        
 
 ---
 
 ## 💻 Usage
 
-    To read system logs (like /var/log/syslog), the agent requires read permissions. You have two options:
+To read system logs (like /var/log/syslog), the agent requires read permissions. You have two options:
 
 **Option A: Run as SRE (Root - Recommended for Full Access)**
 
-    Use sudo while preserving your Python environment:
+Use sudo while preserving your Python environment:
 
-        ``Bash
-
+        ```Bash
         # If using uv
         sudo .venv/bin/python sre_agent.py
 
         # If using standard pip
         sudo -E python3 sre_agent.py
+        ```
 
 Option B: Run as User (Limited Access)
-    Use this for checking disk usage or testing basic logic without log access:
+Use this for checking disk usage or testing basic logic without log access:
 
-        Bash
-
+        ```Bash
         python3 sre_agent.py
-
+        ```
 ---
 
 ## 🛡️ Security Implementation
-    Security is a core component of this project. The agent does not have unrestricted file access.
+Security is a core component of this project. The agent does not have unrestricted file access.
 
-    The is_safe_path function: Before opening any file, the agent resolves the absolute path and verifies it matches the whitelist.
+The is_safe_path function: Before opening any file, the agent resolves the absolute path and verifies it matches the whitelist.
 
-        Python
-
-        # Prevents attacks like: "Read ../../etc/passwd"
-        if not absolute_path.startswith("/var/log"):
-            raise PermissionError("Access Denied")
-
+    ```Python
+    # Prevents attacks like: "Read ../../etc/passwd"
+    if not absolute_path.startswith("/var/log"):
+        raise PermissionError("Access Denied")
+    ```
 ---
 
 ## 🧪 Example Scenario
-    User: "Why is my system acting weird? Check the logs."
+User: "Why is my system acting weird? Check the logs."
 
-    Agent (Internal Thought): User asked for a check. I will call read_system_log('syslog').
+Agent (Internal Thought): User asked for a check. I will call read_system_log('syslog').
 
-    Agent (Output):
+Agent (Output):
 
-        I checked /var/log/syslog and found the following error: [ERROR] usb 1-1: device descriptor read/64, error -71
+* I checked /var/log/syslog and found the following error: [ERROR] usb 1-1: device descriptor read/64, error -71
 
-        Diagnosis: It looks like a USB device is failing to initialize. Try unplugging your recent USB devices.
+* Diagnosis: It looks like a USB device is failing to initialize. Try unplugging your recent USB devices.
 
 ---
 
 ## 📜 License
 
-    MIT License
+*MIT License*
+
