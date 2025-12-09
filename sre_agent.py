@@ -7,6 +7,7 @@ from rich.panel import Panel
 from rich.markdown import Markdown
 from functions.check_disk_usage import check_disk_usage
 from functions.read_system_log import read_system_log
+from functions.list_docker_containers import list_docker_containers
 
 # --- CONFIGURATION & SETUP ---
 load_dotenv()
@@ -22,7 +23,7 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # --- AGENT SETUP ---
 
-tools_list = [read_system_log, check_disk_usage]
+tools_list = [read_system_log, check_disk_usage, list_docker_containers]
 
 model = genai.GenerativeModel(
     model_name='gemini-2.5-flash', 
